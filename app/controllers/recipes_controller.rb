@@ -9,10 +9,18 @@ class RecipesController < ApplicationController
   end
 
   def new
-    @recipe = Recipe.new
+    @recipe = current_user.recipes.build
   end
 
-  def create; end
+  def create
+    @recipe = current_user.recipes.build(new_recipe_params)
+
+    if @recipe.save
+      redirect_to @recipe, notice: 'Recipe was successfully created.'
+    else
+      render :new
+    end
+  end
 
   def edit; end
 
@@ -42,5 +50,9 @@ class RecipesController < ApplicationController
 
   def recipe_params
     params.require(:recipe).permit(:public)
+  end
+
+  def new_recipe_params
+    params.require(:recipe).permit(:name, :preparation_time, :cooking_time, :description, :public)
   end
 end
