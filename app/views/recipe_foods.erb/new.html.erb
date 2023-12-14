@@ -1,25 +1,20 @@
-<h2>Add Food to <%= @recipe.name %></h2>
+<h1 class="text-center">Add Ingredient to Recipe</h1>
 
-<%= form_for [@recipe, @recipe_food] do |f| %>
-  <!-- Form fields for RecipeFood go here -->
-  <div class="field">
-    <%= f.label :quantity %>
-    <%= f.number_field :quantity %>
+<%= form_with(model: [@recipe, @recipe_food], url: recipe_recipe_foods_path(@recipe),  local: true, remote: true) do |form| %>
+  <div class="form-group mt-4">
+  <%= form.hidden_field :recipe_id, value: @recipe.id %>
+    <%= form.label :food_id, 'Select Food' %>
+    <%= form.collection_select :food_id, @foods, :id, :name, { prompt: '.. Select a Food ..' }, { id: 'food-select', class: 'form-control' } %>
   </div>
 
-  <!-- Form fields for Food go here -->
-  <div class="field">
-    <%= f.fields_for :food do |food_fields| %>
-      <%= food_fields.label :name %>
-      <%= food_fields.text_field :name %>
-      <%= food_fields.label :measurement_unit %>
-      <%= food_fields.text_field :measurement_unit %>
-      <%= food_fields.label :price %>
-      <%= food_fields.text_field :price %>
-    <% end %>
+  <div class="form-group mt-3">
+    <%= form.label :quantity %>
+    <%= form.number_field :quantity, class: 'form-control' %>
   </div>
 
   <div class="actions">
-    <%= f.submit 'Create Food' %>
+    <%= form.submit 'Add Ingredient', class: "btn btn-primary mt-3 mb-2" %>
   </div>
 <% end %>
+
+<%= link_to 'Back to Recipe', recipe_path(@recipe) %>
