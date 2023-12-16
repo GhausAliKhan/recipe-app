@@ -28,15 +28,23 @@ class InventoriesController < ApplicationController
   end
 
   def destroy
-    @inventory_food = InventoryFood.find(params[:id])
-
-    if @inventory.destroy
-      flash[:notice] = 'Inventory deleted successfully.'
+    if can_manage_inventory?(@inventory)
+      if @inventory.destroy
+        flash[:notice] = 'Inventory deleted successfully.'
+      else
+        flash[:alert] = 'Error deleting the inventory.'
+      end
     else
-      flash[:alert] = 'Error deleting the inventory.'
+      flash[:alert] = 'You do not have permission to delete this inventory.'
     end
 
-    redirect_to inventory_path(@inventory)
+    redirect_to inventories_path
+  end
+
+  private
+
+  def set_inventory
+    @inventory = Inventory.find(params[:id])
   end
 
   rescue_from CanCan::AccessDenied do |exception|
