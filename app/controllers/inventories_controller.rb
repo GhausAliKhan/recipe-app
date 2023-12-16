@@ -1,5 +1,6 @@
 class InventoriesController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
+  before_action :set_inventory, only: [:destroy]
 
   def index
     @inventories = Inventory.includes(:inventory_foods).where(user_id: current_user.id)
@@ -27,7 +28,7 @@ class InventoriesController < ApplicationController
   end
 
   def destroy
-    @inventory = Inventory.find(params[:id])
+    @inventory_food = InventoryFood.find(params[:id])
 
     if @inventory.destroy
       flash[:notice] = 'Inventory deleted successfully.'
@@ -35,7 +36,7 @@ class InventoriesController < ApplicationController
       flash[:alert] = 'Error deleting the inventory.'
     end
 
-    redirect_to inventories_path
+    redirect_to inventory_path(@inventory)
   end
 
   rescue_from CanCan::AccessDenied do |exception|

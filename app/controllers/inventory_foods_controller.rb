@@ -1,4 +1,5 @@
 class InventoryFoodsController < ApplicationController
+  before_action :set_inventory, only: [:destroy]
   def index; end
 
   def show; end
@@ -23,11 +24,11 @@ class InventoryFoodsController < ApplicationController
   end
 
   def destroy
-    @inventory_food = InventoryFood.find(params[:id]) # Assuming you're looking for an InventoryFood by its ID
+    @inventory_food = InventoryFood.find(params[:id])
     @inventory_food.destroy
 
     flash[:notice] = 'Inventory Food was successfully deleted.'
-    redirect_to inventory_path(:inventory_id)
+    redirect_to inventory_path(@inventory)
   end
 
   private

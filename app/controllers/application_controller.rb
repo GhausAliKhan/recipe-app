@@ -6,4 +6,10 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
   end
+
+  private
+
+  def set_inventory
+    @inventory = Inventory.find(params[:inventory_id])
+  end
 end
