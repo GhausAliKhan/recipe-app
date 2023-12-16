@@ -51,7 +51,6 @@ class InventoriesController < ApplicationController
     redirect_to root_url, alert: exception.message
   end
 
-  private
 
   def inventory_params
     params.require(:inventory).permit(:name, :description)
