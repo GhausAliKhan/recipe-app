@@ -17,7 +17,7 @@
             <strong>Total food items:</strong> <%= public_recipe.recipe_foods.count %>
           </h5>
           <h5 class="card-title">
-            <strong>Total price:</strong> $<%= public_recipe.foods.sum(:price) %>
+            <strong>Total amount:</strong> <%= recipe_total_amount(public_recipe) %>
           </h5>
         </div>
       </div>
